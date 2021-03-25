@@ -21,7 +21,7 @@ Additionally, it can split loci using multiple Ns that separate them (using the 
 ### Usage as module:
 ```
 import fasta2hdf5
-fasta2hdf5.convert("test/simple.fasta", ns=400)
+fasta2hdf5.convert("test/nchains.fasta", ns=30)
 ```
 ### Usage as CLI script
 ```
