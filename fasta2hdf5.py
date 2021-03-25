@@ -5,7 +5,7 @@ import os
 import re
 
 
-def convert(fasta, nloci=None, ns=None, hdf5=None):
+def convert(fasta, nloci=None, ns=None, hdf5=None, quiet=False):
     """
     Convert fasta alignments into HFD5 file compatible with ipyrad tools. 
     It is capable of spliting sequences into multiple loci by size or by Ns chains.
@@ -131,7 +131,8 @@ def convert(fasta, nloci=None, ns=None, hdf5=None):
             h["phymap"].attrs["phynames"] = np.asarray(phynames, dtype="S")
             h["phymap"].attrs["columns"] = [b"chroms", b"phy0", b"phy1", b"pos0", b"pos1",]
         
-        print(f"HDF5 file saved at: {hdf5}")
+        if not quiet: 
+            print(f"HDF5 file saved at: {hdf5}")
 
 
 
