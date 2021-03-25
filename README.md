@@ -5,7 +5,7 @@ Simple converter for FASTA* alignments into HDF5 (Hierarchical Data Format) used
 This converter can split the sequence in similar sized loci (using the parameter `nloci` and the number of loci wanted). 
 
 
-*FASTA format with no line wrapping and exactly two lines per record.
+*FASTA format with no line wrapping and exactly two lines per sequence.
 
 ### Usage as module:
 ```
