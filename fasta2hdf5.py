@@ -123,7 +123,7 @@ def convert(fasta, nloci=None, ns=None, hdf5=None, quiet=False):
 
 
         with h5py.File(hdf5, 'w') as h:
-            h["phy"] = np.asarray(phy)
+            h["phy"] = np.asarray(phy, dtype="u1")
             h["phymap"] = np.asarray(phymap)
             h["scaffold_names"] = np.asarray(scaffold_names, dtype="S")
             h["scaffold_lengths"] = np.asarray(scaffold_lengths)
