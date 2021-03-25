@@ -2,7 +2,7 @@
 
 Simple converter for fasta alignments into HDF5 (Hierarchical Data Format) used in some downstream analyses in [ipyrad](https://github.com/dereneaton/ipyrad) and other software like [superBPP](https://github.com/eaton-lab/superbpp).
 
-By default this converter considers the entire sequence for each sample as one unique loci; however, it can split the sequence in similar sized loci (using the parameter `nloci` and the number of loci wanted). 
+This converter can split the sequence in similar sized loci (using the parameter `nloci` and the number of loci wanted). 
 
 ### Usage as module:
 ```
