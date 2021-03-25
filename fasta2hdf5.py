@@ -2,9 +2,10 @@ import numpy as np
 import h5py
 import math
 import os
+import re
 
 
-def convert(fasta, nloci=1, ns=None, hdf5=None):
+def convert(fasta, nloci=None, ns=None, hdf5=None):
     """
     Convert fasta alignments into HFD5 file compatible with ipyrad tools. 
     It is capable of spliting sequences into multiple loci by size or by Ns chains.
@@ -13,7 +14,7 @@ def convert(fasta, nloci=1, ns=None, hdf5=None):
     Fasta file with alignment to convert
     
     nloci (integer)
-    Number of loci to split secuence. Default=1
+    Number of loci to split secuence.
     Example: given a a sequence like: ACTGCACGTAGGGTA and nloci=2
     fasta2hdf5 will consider two loci: ACTGCAC and GTAGGGTA
     
@@ -28,7 +29,7 @@ def convert(fasta, nloci=1, ns=None, hdf5=None):
 
     if nloci and ns:
         raise Exception("Only one mode is allowed not both. 1) arbitrarily split the sequence in N loci or 2) Ns as locus separator")
-    elif nloci == None and ns == None:
+    elif not nloci and not ns:
         raise Exception("Define the method to delimitate loci from sequences with nloci OR ns")
         
     #define default hdf5 path
@@ -50,10 +51,11 @@ def convert(fasta, nloci=1, ns=None, hdf5=None):
 
             # else extract the sequence info
             else:
+                #Mode arbitrary n loci
                 if nloci:
+                    # if is the first sequence create phymap and scaffold dataset
                     if idx == 1:
-                        #strip line to get only bases and chars
-
+                       
                         # create empty arrays
                         phymap = []
                         scaffold_names = []
@@ -80,32 +82,43 @@ def convert(fasta, nloci=1, ns=None, hdf5=None):
                                 end += length%nloci
 
 
-    #                         print(f"seq:{line.rstrip()[start:end]}, start: {start}, end: {end}")
-
                             # fill phymap, scaffold_lengths, and scaffold_names 
-                #             print("proto-phymap: ",[idx_locus + 1, start, end, 0, end])
                             phymap.append([idx_locus + 1, start, end, 0, end])
-                #             print(f"loc-{idx_locus + 1}")
                             scaffold_names.append(f"loc-{idx_locus + 1}")
-                #             print(end-start)
                             scaffold_lengths.append(end-start)
-
-                        #add them to the hdf5 file
 
                     # prepare phy, for now add sequence by sequence to the file. 
                     phy.append([0 if base in ["N","-","?"] else ord(base) for base in line.strip().upper()])
                     # certainly this will fill the memory try somethng like:
-#                       def append(self, values):
-#                         with h5py.File(self.datapath, mode='a') as h5f:
-#                             dset = h5f[self.dataset]
-#                             dset.resize((self.i + 1, ) + shape)
-#                             dset[self.i] = [values]
-#                             self.i += 1
-#                             h5f.flush()
+                    #   def append(self, values):
+                    #     with h5py.File(self.datapath, mode='a') as h5f:
+                    #         dset = h5f[self.dataset]
+                    #         dset.resize((self.i + 1, ) + shape)
+                    #         dset[self.i] = [values]
+                    #         self.i += 1
+                    #         h5f.flush()
 
-
+                #Mode loci separated by NNNNN chains
                 if ns:
-                    pass
+                    # if is the first sequence create phymap and scaffold dataset
+                    if idx == 1:
+
+                        # create empty arrays
+                        phymap = []
+                        scaffold_names = []
+                        scaffold_lengths = []
+
+                        #get location of loci                       
+                        for idx_locus, locus in enumerate(re.finditer("[^=]+", line.strip().upper().replace("N"*ns,"="))):
+                            start = locus.start() - idx_locus
+                            end = locus.end() - idx_locus
+
+                            
+                            phymap.append([idx_locus + 1, start, end, 0, end])
+                            scaffold_names.append(f"loc-{idx_locus + 1}")
+                            scaffold_lengths.append(end-start)
+
+                    phy.append([0 if base in ["N","-","?"] else ord(base) for base in line.strip().upper().replace("N"*ns,"")])
 
 
 

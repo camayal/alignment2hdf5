@@ -26,10 +26,10 @@ def convert(fasta, nloci=1, ns=None, hdf5=None):
     Path to save the resulting HDF5 file. Default=Same location and name as fasta
     """
 
-    if nloci and ns:
-        raise Exception("Only one mode is allowed not both. 1) arbitrarily split the sequence in N loci or 2) Ns as locus separator")
-    elif nloci == None and ns == None:
-        raise Exception("Define the method to delimitate loci from sequences with nloci OR ns")
+#     if nloci and ns:
+#         raise Exception("Only one mode is allowed not both. 1) arbitrarily split the sequence in N loci or 2) Ns as locus separator")
+#     elif nloci == None and ns == None:
+#         raise Exception("Define the method to delimitate loci from sequences with nloci OR ns")
         
     #define default hdf5 path
     if not hdf5:
@@ -51,9 +51,9 @@ def convert(fasta, nloci=1, ns=None, hdf5=None):
             # else extract the sequence info
             else:
                 if nloci:
+                    # if is the first sequence create phymap and scaffold dataset
                     if idx == 1:
-                        #strip line to get only bases and chars
-
+                       
                         # create empty arrays
                         phymap = []
                         scaffold_names = []
@@ -106,6 +106,7 @@ def convert(fasta, nloci=1, ns=None, hdf5=None):
 
                 if ns:
                     pass
+                    #get sequence
 
 
 
