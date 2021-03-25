@@ -27,3 +27,5 @@ fasta2hdf5.convert("test/nchains.fasta", ns=30)
 ```
 ToDo
 ```
+
+ToDo: Multiple loci in individual fasta files.
