@@ -11,18 +11,18 @@ Genes or loci must be saved in individual fasta files. They could not include al
 `gene1.fna`
 ```text
 >sample_1
-ACGGCAC
+TCTAGACATGCCAGGCGGTGCGTCTGCTGTCGGGTGCCTCTG
 >sample_2
-ACTGCAC
+TCTAGACATTCCAGGCGGTGCGTCTGCTGTCGGGTGCCTCTA
 >sample_3
-ACTGCAA
+TCTAGACATTGGAGGCGGTGCGTCTGCTGTCGGGTGCCTCTG
 ``` 
 `gene2.fna`
 ```text
 >sample_1
-GTAAAGTA
+GTGACTGGCTAGATGGACTTGCCGCTGGTAAAC
 >sample_2
-GTAGGGTA
+GTGACTGGCTAGATGGACTTGCCGCTGGTTTTC
 ```
 
 #### Usage as module:
@@ -38,15 +38,16 @@ ToDo
 
 ### 2. Split a fasta file into multiple loci having the same length and convert it into a hdf5 file.
 
-Fasta files can be single-lined or multi-lined (interleaved), for example:
+Fasta files can be single-lined or multi-lined (interleaved). For example:
 
 `simple.fa` 
 ```text
 >sample_1 single line
-ACGGCACGTAAAGTA
+TCTAGACATTCCAGGCGGTGCGTCTGCTGTCGGGTGCCTCTG
 >sample_2 multiline
-ACTGCACGTAG
-GGTA
+TCTAGACATTCCAGGCGGTGC
+GTATGCTGTCGGGTGCCTCTG
+
 ```
 
 #### Usage as module:
