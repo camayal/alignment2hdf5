@@ -37,7 +37,6 @@ ToDo
 ```
 
 ### 2. Split a fasta file into multiple loci having the same length and convert it into a hdf5 file.
-#### Usage as module:
 
 Fasta files can be single-lined or multi-lined (interleaved), for example:
 
@@ -49,6 +48,8 @@ ACGGCACGTAAAGTA
 ACTGCACGTAG
 GGTA
 ```
+
+#### Usage as module:
 
 ```python
 import alignment2hdf5
