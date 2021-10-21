@@ -1,16 +1,14 @@
-# fasta2hdf5
+# alignment2hdf5
 
-Simple converter for FASTA* alignments into HDF5 (Hierarchical Data Format) used in some downstream analyses in [ipyrad](https://github.com/dereneaton/ipyrad) and other software like [superBPP](https://github.com/eaton-lab/superbpp).
+Simple converter for FASTA and Nexus alignments into HDF5 (Hierarchical Data Format) used in some downstream analyses in [ipyrad](https://github.com/dereneaton/ipyrad) and other software like [superBPP](https://github.com/eaton-lab/superbpp).
 
-This converter can split the sequence in similar sized loci (using the parameter `nloci` and the number of loci wanted). 
+This converter has several modes:
 
-
-*FASTA format with no line wrapping and exactly two lines per sequence.
-
+## 1. Convert multiple fasta files in a single folder into a hdf5 file.
 ### Usage as module:
 ```
-import fasta2hdf5
-fasta2hdf5.convert("test/simple.fasta", nloci=7)
+import alignment2hdf5
+alignment2hdf5.multiple_fastas_to_hdf5("./test/genes/*.FNA", output="./test/alignment.hdf5")
 ```
 
 ### Usage as CLI script:
@@ -18,17 +16,26 @@ fasta2hdf5.convert("test/simple.fasta", nloci=7)
 ToDo
 ```
 
-
-Additionally, it can split loci using multiple Ns that separate them (using the parameter `ns` and the number of Ns that separate each loci).
-
+## 2. Split a fasta file into multiple loci having the same length and convert it into a hdf5 file.
 ### Usage as module:
 ```
-import fasta2hdf5
-fasta2hdf5.convert("test/nchains.fasta", ns=30)
+import alignment2hdf5
+alignment2hdf5.split_fasta_to_hdf5("./test/simple.fasta", number_loci=4, output="./test.simple.hdf5")
 ```
-### Usage as CLI script
+
+### Usage as CLI script:
 ```
 ToDo
 ```
 
-ToDo: Multiple loci in individual fasta files.
+## 3. Convert nexus file into a hdf5 file.
+### Usage as module:
+```
+import alignment2hdf5
+ToDo
+```
+
+### Usage as CLI script:
+```
+ToDo
+```
