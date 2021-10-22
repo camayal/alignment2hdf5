@@ -64,7 +64,7 @@ ToDo
 
 ### 3. Convert nexus file into a hdf5 file.
 
-Nexus file can be sequential or interleaved. File must have `charpartition` block in order to split every locus in the main matrix. This script can parse `taxpartition` block to create an imap file.
+Nexus file can be sequential or interleaved. File must have `charpartition` block in order to split every locus in the main matrix. This script also can parse `taxpartition` block to create an imap file.
 
 `simple.nex`
 ```text
