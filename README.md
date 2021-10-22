@@ -54,7 +54,7 @@ GTATGCTGTCGGGTGCCTCTG
 
 ```python
 import alignment2hdf5
-alignment2hdf5.split_fasta_to_hdf5("./test/simple.fasta", number_loci=4, output="./test.simple.hdf5")
+alignment2hdf5.split_fasta_to_hdf5("./test/fasta.fa", number_loci=4, output="./test/fasta.hdf5")
 ```
 
 #### Usage as CLI script:
@@ -63,10 +63,41 @@ ToDo
 ```
 
 ### 3. Convert nexus file into a hdf5 file.
-#### Usage as module:
+
+Nexus file can be sequential or interleaved. File must have `charpartition` block in order to split every locus in the main matrix. This script can parse `taxpartition` block to create an imap file.
+
+`simple.nex`
+```text
+ #NEXUS
+[This is an example of nexus file]
+
+Begin data;
+    Dimensions ntax=6 nchar=48;
+    Format datatype=nucleotide gap=- missing=?;
+    Matrix
+a1    CTGATTTACATGTCAGATGTTTTTACTAGTTCCCAACAGTTTCTCATG
+a2    CTGATTTACATGTCAGATGTTTTTACTAGTTCCCAACAGTTTCTCATG
+b1    CTGATTTACATGTCAGATGTTTTTACTAGTTCCCAACAGTTTCTCATG
+b2    CTGATTTACATGTCAGATGTTTTTACTAGTTCCCAACAGTTTCTCATG
+c1    CTGATTTACATGTCAGATGTTTTTACTAGTTCCCAACAGTTTCTCATG
+c2    CTGATTTACATGTCAGATGTTTTTACTAGTTCCCAACAGTTTCTCATG
+    ;
+End;
+
+[charpartition block is requiered]
+charpartition lociset =
+1: 1-10,
+2: 11-20,
+3: 21-30,
+4: 31-40,
+5: 41-48;
+end;
 ```
+
+#### Usage as module:
+```python
 import alignment2hdf5
-ToDo
+alignment2hdf5.nexus_to_hdf5("./test/nexus.nex", output="./test/nexus.hdf5")
 ```
 
 #### Usage as CLI script:
