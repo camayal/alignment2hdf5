@@ -378,6 +378,7 @@ def nexus_to_hdf5(nexus, output=None, extract_other_info=True):
     Name of the file and extension of the final produced file. By default it is used the same name of the nexus file.
     """
     dataset = {}
+    imap = []
 
     # create empty arrays
     phymap = []
@@ -411,7 +412,12 @@ def nexus_to_hdf5(nexus, output=None, extract_other_info=True):
                 
 
             if block == "taxpartition" and extract_other_info:
-                pass
+                species, individuals = (i.strip() for i in line.split(":"))
+                individuals = re.sub(",|;", "", individuals)
+                individuals = individuals.split()
+                for individual in individuals:
+                    imap.append(f"{species}\t{individual}")
+
 
     #use dataset to populate phynames and phy
     for sample in dataset:
@@ -420,13 +426,19 @@ def nexus_to_hdf5(nexus, output=None, extract_other_info=True):
     
     
     #create hdf5 file
-        #define default hdf5 path if is not provided
-        if not output:
-            path = os.path.dirname(nexus)
-            base = os.path.basename(nexus)
-            name = os.path.splitext(base)[0]
-            output = os.path.join(path, name + ".hdf5")
-        _build_hdf5(phy, phynames, phymap, scaffold_names, scaffold_lengths, output)
+    #define default hdf5 path if is not provided
+    if not output:
+        path = os.path.dirname(nexus)
+        base = os.path.basename(nexus)
+        name = os.path.splitext(base)[0]
+        output = os.path.join(path, name)
+    _build_hdf5(phy, phynames, phymap, scaffold_names, scaffold_lengths, f"{output}.hdf5")
+
+    # save imap if requested
+    if extract_other_info:
+        with open(f"{output}.popfile.txt", "w") as imap_file:
+            imap_file.writelines(f"{i}\n" for i in imap)
+
 
 
 
@@ -449,6 +461,6 @@ if __name__ == "__main__":
     #         print(line)
 
 
-    nexus_to_hdf5("./test/nexus.nex")
+    nexus_to_hdf5("./dev/nexus.nex")
     # nexus_to_hdf5("nexuslink.nex")
     # nexus_to_hdf5("nexusinterleaved.nex")
