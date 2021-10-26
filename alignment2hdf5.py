@@ -280,7 +280,7 @@ def _read_nexus(nexus):
 
     for line in nexus:
         if len(line) > 1:
-            line = line.strip().lower()
+            line = line.strip()
 
             #Detect start comments 
             if line.startswith("["):
@@ -298,7 +298,7 @@ def _read_nexus(nexus):
 
             #compatibility with execute command, extract info from other file
             #mostly used to separate command nexus from matrix nexus
-            if line.startswith("execute"):
+            if line.lower().startswith("execute"):
                 data_nexus = line.split()[1].replace(";","")
                 with open(data_nexus, "r") as fp:
                     for ex_line in _read_nexus(fp):
@@ -309,7 +309,7 @@ def _read_nexus(nexus):
             ##
 
             #Detect the keyword matrix, enter in seqs block skip to next line
-            if line.startswith("matrix"):
+            if line.lower().startswith("matrix"):
                 block = "seqs"
                 continue
  
@@ -375,7 +375,7 @@ def nexus_to_hdf5(nexus, output=None, extract_other_info=True):
     Extract taxpartition block and convert into an IMAP file. Default: True
 
     output (string)
-    Name of the file and extension of the final produced file. By default it is used the same name of the nexus file.
+    Name of the file extension of the final produced file. By default it is used the same name of the nexus file.
     """
     dataset = {}
     imap = []
@@ -431,8 +431,8 @@ def nexus_to_hdf5(nexus, output=None, extract_other_info=True):
         path = os.path.dirname(nexus)
         base = os.path.basename(nexus)
         name = os.path.splitext(base)[0]
-        output = os.path.join(path, name)
-    _build_hdf5(phy, phynames, phymap, scaffold_names, scaffold_lengths, f"{output}.hdf5")
+        output = os.path.join(path, name + ".hdf5")
+    _build_hdf5(phy, phynames, phymap, scaffold_names, scaffold_lengths, output)
 
     # save imap if requested
     if extract_other_info:
