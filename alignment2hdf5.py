@@ -444,7 +444,7 @@ def nexus_to_hdf5(nexus, output=None, extract_other_info=True):
 
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     # #test with simple nexus
     # with open("nexus.nex") as fp:
     #     for line in _read_nexus(fp):
@@ -461,6 +461,6 @@ if __name__ == "__main__":
     #         print(line)
 
 
-    nexus_to_hdf5("./dev/nexus.nex")
+    # nexus_to_hdf5("./dev/nexus.nex")
     # nexus_to_hdf5("nexuslink.nex")
     # nexus_to_hdf5("nexusinterleaved.nex")
