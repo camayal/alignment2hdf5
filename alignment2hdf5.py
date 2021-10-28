@@ -428,23 +428,34 @@ def nexus_to_hdf5(nexus, output=None, extract_other_info=True):
     #create hdf5 file
     #define default hdf5 path if is not provided
     if not output:
-        path = os.path.dirname(nexus)
-        base = os.path.basename(nexus)
-        name = os.path.splitext(base)[0]
-        output = os.path.join(path, name + ".hdf5")
+        # path = os.path.dirname(nexus)
+        # base = os.path.basename(nexus)
+        # name = os.path.splitext(base)[0]
+        # output = os.path.join(path, name + ".hdf5")
+        output = _get_output_name(nexus, ".hdf5")
     _build_hdf5(phy, phynames, phymap, scaffold_names, scaffold_lengths, output)
 
     # save imap if requested
     if extract_other_info:
-        with open(f"{output}.popfile.txt", "w") as imap_file:
+        # path = os.path.dirname(output)
+        # base = os.path.basename(output)
+        # name = os.path.splitext(base)[0]
+        output = _get_output_name(output, ".popfile.txt")
+        with open(output, "w") as imap_file:
             imap_file.writelines(f"{i}\n" for i in imap)
 
 
 
+def _get_output_name(original_path, ext):
+    path = os.path.dirname(original_path)
+    base = os.path.basename(original_path)
+    name = os.path.splitext(base)[0]
+    output = os.path.join(path, name + ext)
+    return output
 
 
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
     # #test with simple nexus
     # with open("nexus.nex") as fp:
     #     for line in _read_nexus(fp):
@@ -461,6 +472,6 @@ def nexus_to_hdf5(nexus, output=None, extract_other_info=True):
     #         print(line)
 
 
-    # nexus_to_hdf5("./dev/nexus.nex")
+    nexus_to_hdf5("./dev/nexus.nex")
     # nexus_to_hdf5("nexuslink.nex")
     # nexus_to_hdf5("nexusinterleaved.nex")
